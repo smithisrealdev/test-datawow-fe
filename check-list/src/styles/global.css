@@ -1,0 +1,29 @@
+/* Set box-sizing property to border-box for all elements */
+*, *:before, *:after {
+  box-sizing: border-box;
+  font-family: 'Roboto', sans-serif;
+}
+
+/* Remove default margin and padding from body element */
+body {
+  margin: 0;
+  padding: 0;
+}
+
+/* Set max-width and margin to center content in the page */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Set some basic styles for headings */
+h1, h2, h3, h4, h5, h6 {
+  font-weight: bold;
+  margin-bottom: 1rem;
+}
+
+/* Set basic styles for links */
+a {
+  color: blue;
+  text-decoration: none;
+}
