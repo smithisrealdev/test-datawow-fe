@@ -1,6 +1,6 @@
-// import { combineReducers } from 'redux';
-// import main from './reducer/index';
+import { combineReducers } from 'redux';
+import main from './redux-reducer/index';
 
-// export default combineReducers({
-//   main,
-// });
+export default combineReducers({
+  main,
+});
