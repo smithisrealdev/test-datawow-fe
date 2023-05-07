@@ -1,26 +1,34 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useContext } from "react";
 import ContentLists from "./ContentList";
 import ContentProgressBars from "./ContentProgressBar";
 import * as mainAction from "../../redux-store/redux-action/index";
 import { useDispatch } from "react-redux";
 function Layout() {
+  const IsCloseModalMenuEditContext = React.createContext(false);
   const dispatch = useDispatch();
   useEffect(() => {
-    console.log("handleInitialValue!!")
-    
     const fetchData = async () => {
       const action = await mainAction.handleInitialValue();
       dispatch(action);
-    }
-  
+    };
+
     fetchData();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return (
-    <div>
-      <ContentProgressBars />
-      <ContentLists />
-    </div>
+      <div
+        style={{
+          display: "flex",
+          flex: 1,
+          flexDirection: "column",
+          padding: "61px 101px",
+          backgroundColor: "#F5F5F5",
+          borderRadius: 20,
+        }}
+      >
+        <ContentProgressBars />
+        <ContentLists />
+      </div>
   );
 }
 

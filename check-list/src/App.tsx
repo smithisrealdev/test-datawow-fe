@@ -3,6 +3,7 @@ import { Provider } from "react-redux";
 import rootReducer from "../src/redux-store/index";
 import ReduxThunk from "redux-thunk";
 import ReduxLogger from "redux-logger";
+import React from "react";
 import { apiMiddleware } from "redux-api-middleware";
 const store = createStore(
   rootReducer,
@@ -12,8 +13,8 @@ const store = createStore(
 
 import Layout from "./components/Layouts/Layout";
 const mainStyle = {
-  backgroundColor: "#F5F5F5",
-  padding: "61px 101px",
+  backgroundColor: "#E5E5E5",
+  padding: "42px 280px",
   height: "100vh",
   width: "100vw",
 };

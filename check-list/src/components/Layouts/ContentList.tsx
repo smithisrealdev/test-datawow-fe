@@ -1,13 +1,16 @@
-import React from "react";
+import React, { useContext } from "react";
 import Card from "../List/Card";
 import * as mainAction from "../../redux-store/redux-action/index";
 import { useDispatch, useSelector } from "react-redux";
 
+import SaveButton from "../SaveButton";
+import { DropdownFilter } from "../List/DropdownFilter";
 function ContentList() {
   const dispatch = useDispatch();
   const [title, setTitle] = React.useState("");
   const handleAddCard = (title) => {
     dispatch(mainAction.handleAddCard(title));
+    setTitle("");
   };
   const handleAddText = (event) => {
     setTitle(event.target.value);
@@ -25,24 +28,18 @@ function ContentList() {
         }}
       >
         <h2>Task</h2>
-        <div style={{backgroundColor: "#fff",borderRadius:10,width:110,padding:"4px 14px",display:"flex",justifyContent:"space-between"}}>
-          <div>
-          all
-          </div>
-          <div>
-            i
-          </div>
-        </div>
+        <DropdownFilter />
+       
       </div>
       <div style={{ display: "flex", flexDirection: "column" }}>
         {listTasks.map((element) => {
           return (
-            <Card
-              key={element.id}
-              id={element.id}
-              title={element.title}
-              completed={element.completed}
-            />
+              <Card
+                key={element.id}
+                id={element.id}
+                title={element.title}
+                completed={element.completed}
+              />
           );
         })}
       </div>
@@ -52,12 +49,7 @@ function ContentList() {
           borderRadius: 30,
           marginBottom: 16,
           backgroundColor: "#FFFFFF",
-          // justifyContent: "space-between",
           alignItems: "center",
-          paddingLeft: 24,
-          paddingRight: 24,
-          paddingTop: 16,
-          paddingBottom: 16,
         }}
       >
         <input
@@ -72,25 +64,15 @@ function ContentList() {
             outline: "none",
             flex: 1,
             fontSize: 16,
+            borderRadius: 30,
             fontWeight: 400,
+            paddingLeft: 24,
+            paddingRight: 24,
+            paddingTop: 14,
+            paddingBottom: 14,
           }}
         />
-        <div
-          onClick={() => handleAddCard(title)}
-          style={{
-            backgroundColor: "#585292",
-            color: "#fff",
-            borderRadius: 30,
-            width: 64,
-            height: 36,
-            alignItems: "center",
-            justifyContent: "center",
-            display: title ? "flex" : "none",
-            cursor: "pointer",
-          }}
-        >
-          Save
-        </div>
+        <SaveButton isDisplay={title} handles={() => handleAddCard(title)} />
       </div>
     </div>
   );

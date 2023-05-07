@@ -4,7 +4,7 @@ import { v4 as uuidv4 } from 'uuid';
 // import jwt_decode from 'jwt-decode';
 
 type RemoveCard = {
-    id: number,
+    id: string,
 }
 type EditCard = {
     id: string,
@@ -53,7 +53,6 @@ export const handleAddCard = (title:string) => {
 };
 export const handleEditCard_ACTION = `handleEditCard_ACTION`;
 export const handleEditCard = ({id,title,checked}:EditCard) => {
-  console.log("handleEditCard :",id,title,checked)
   return {
     type: handleEditCard_ACTION,
     payload: {
