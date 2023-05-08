@@ -1,10 +1,10 @@
-import React, { useEffect, useContext } from "react";
+import React, { useEffect } from "react";
 import ContentLists from "./ContentList";
 import ContentProgressBars from "./ContentProgressBar";
 import * as mainAction from "../../redux-store/redux-action/index";
 import { useDispatch } from "react-redux";
 function Layout() {
-  const IsCloseModalMenuEditContext = React.createContext(false);
+
   const dispatch = useDispatch();
   useEffect(() => {
     const fetchData = async () => {

@@ -12,10 +12,12 @@ type CardParams = {
 function Card({ id, title, completed }: CardParams) {
   const [isOpen, setIsOpen] = useState(false);
   const [isClickEdit, setIsClickEdit] = useState(false);
+  const [isMenuEditClicked, setIsMenuEditClicked] = useState(false);
   const [inputTitle, setInputTitle] = useState(title);
   const [isChecked, setIsChecked] = useState(completed);
   const dispatch = useDispatch();
   const inputRef = useRef<HTMLInputElement | null>(null);
+  const menuEditRef = useRef();
   const handleCheckboxChange = (event) => {
     setIsChecked(event.target.checked);
     const checked = event.target.checked;
@@ -24,21 +26,27 @@ function Card({ id, title, completed }: CardParams) {
   const modalRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     function handleClickOutside(event) {
+      if (menuEditRef.current && menuEditRef.current.contains(event.target)) {
+        return;
+      }
+
       if (modalRef.current && !modalRef.current.contains(event.target)) {
         setIsOpen(false);
       }
     }
+
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
-  
+
+  const hanhleOpenModalMenuEdit = (event) => {
+    event.stopPropagation();
+    setIsOpen(!isOpen);
+  };
   const handleInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     setInputTitle(event.target.value);
-  };
-  const hanhleOpenModalMenuEdit = () => {
-    setIsOpen(!isOpen);
   };
   const hanhleClickEdit = () => {
     setIsClickEdit(!isClickEdit);
@@ -85,7 +93,6 @@ function Card({ id, title, completed }: CardParams) {
             <input
               checked={isChecked}
               type="checkbox"
-              defaultChecked
               onChange={handleCheckboxChange}
               id={id}
             />
@@ -132,6 +139,7 @@ function Card({ id, title, completed }: CardParams) {
         }}
       >
         <img
+          ref={menuEditRef}
           src={EditIcon}
           style={{ cursor: "pointer" }}
           width={28}
@@ -144,7 +152,7 @@ function Card({ id, title, completed }: CardParams) {
             id={id}
             style={{
               position: "absolute",
-              zIndex: 100,
+              zIndex: 10000000000,
               top: 20,
               width: 110,
               height: 80,

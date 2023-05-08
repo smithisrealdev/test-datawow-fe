@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useState, useEffect } from "react";
 import Card from "../List/Card";
 import * as mainAction from "../../redux-store/redux-action/index";
 import { useDispatch, useSelector } from "react-redux";
@@ -7,15 +7,32 @@ import SaveButton from "../SaveButton";
 import { DropdownFilter } from "../List/DropdownFilter";
 function ContentList() {
   const dispatch = useDispatch();
-  const [title, setTitle] = React.useState("");
+  const [selectedOption, setSelectedOption] = useState("All");
+  const [title, setTitle] = useState("");
   const handleAddCard = (title) => {
     dispatch(mainAction.handleAddCard(title));
     setTitle("");
   };
+  const [lists, setLists] = useState([]);
+  const { listTasks } = useSelector((state) => state.main);
+  useEffect(() => {
+    switch (selectedOption) {
+      case "Done":
+        console.log("Done");
+        setLists(listTasks.filter((element) => element.completed === true));
+        break;
+      case "Undone":
+        setLists(listTasks.filter((element) => element.completed === false));
+        break;
+      default:
+        setLists(listTasks);
+        break;
+    }
+  }, [listTasks, selectedOption]);
+
   const handleAddText = (event) => {
     setTitle(event.target.value);
   };
-  const { listTasks } = useSelector((state) => state.main);
 
   return (
     <div style={{ display: "flex", flexDirection: "column", marginTop: 32 }}>
@@ -27,19 +44,38 @@ function ContentList() {
           alignItems: "center",
         }}
       >
-        <h2>Task</h2>
-        <DropdownFilter />
-       
+        <h2
+          style={{
+            fontStyle: "normal",
+            fontWeight: 500,
+            // fontSize: 24,
+            fontSize: `calc(20px + 0.390625vw)`,
+            // lineHeight: 28,
+          }}
+        >
+          Task
+        </h2>
+        <DropdownFilter
+          setSelectOption={setSelectedOption}
+          select={selectedOption}
+        />
       </div>
-      <div style={{ display: "flex", flexDirection: "column" }}>
-        {listTasks.map((element) => {
+      <div
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          overflowY: lists.length > 12 ? "scroll" : "none",
+          maxHeight: lists.length > 12 ? "800px" : "auto",
+        }}
+      >
+        {lists.map((element) => {
           return (
-              <Card
-                key={element.id}
-                id={element.id}
-                title={element.title}
-                completed={element.completed}
-              />
+            <Card
+              key={element.id}
+              id={element.id}
+              title={element.title}
+              completed={element.completed}
+            />
           );
         })}
       </div>
@@ -48,8 +84,10 @@ function ContentList() {
           display: "flex",
           borderRadius: 30,
           marginBottom: 16,
+          marginTop: lists.length >= 11 ? 12 : 0,
           backgroundColor: "#FFFFFF",
           alignItems: "center",
+          maxHeight: "400px",
         }}
       >
         <input
