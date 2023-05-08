@@ -9,7 +9,7 @@ $ cd check-list
 $ yarn
 ```
 
-Start Server
+Start Application
 
 ```bash
 $ yarn dev
